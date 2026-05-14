@@ -11,8 +11,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final usernameC = TextEditingController();
-  final passwordC = TextEditingController();
+  final username = TextEditingController();
+  final password = TextEditingController();
 
   final ApiService api = ApiService();
 
@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   bool isHidden = true;
 
   Future<void> login() async {
-    if (usernameC.text.isEmpty || passwordC.text.isEmpty) {
+    if (username.text.isEmpty || password.text.isEmpty) {
       showMsg("Username dan Password wajib diisi");
       return;
     }
@@ -28,8 +28,8 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => isLoading = true);
 
     final token = await api.login(
-      usernameC.text.trim(),
-      passwordC.text.trim(),
+      username.text.trim(),
+      password.text.trim(),
     );
 
     if (token != null) {
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                 gap(36),
 
                 TextField(
-                  controller: usernameC,
+                  controller: username,
                   decoration: fieldStyle(
                     hint: "Username",
                     icon: Icons.person,
@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                 gap(18),
 
                 TextField(
-                  controller: passwordC,
+                  controller: password,
                   obscureText: isHidden,
                   decoration: fieldStyle(
                     hint: "Password",

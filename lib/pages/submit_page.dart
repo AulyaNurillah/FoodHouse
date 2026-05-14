@@ -20,35 +20,43 @@ class _SubmitPageState extends State<SubmitPage> {
   bool isLoading = false;
 
   Future<void> submit() async {
-    if ([name, price, desc, github].any((e) => e.text.isEmpty)) {
-      showMsg("Semua field wajib diisi");
-      return;
-    }
-
-    setState(() => isLoading = true);
-
-    final token = await StorageService.getToken();
-
-    if (token != null) {
-      final success = await api.submitTugas(
-        token,
-        name.text.trim(),
-        int.parse(price.text.trim()),
-        desc.text.trim(),
-        github.text.trim(),
-      );
-
-      if (!mounted) return;
-
-      showMsg(
-        success ? "Tugas berhasil dikirim 🎉" : "Gagal submit tugas",
-      );
-
-      if (success) Navigator.pop(context);
-    }
-
-    setState(() => isLoading = false);
+  if ([name, price, desc, github].any((e) => e.text.isEmpty)) {
+    showMsg("Semua field wajib diisi");
+    return;
   }
+
+  final parsedPrice = int.tryParse(price.text.trim());
+  if (parsedPrice == null) {
+    showMsg("Harga harus angka");
+    return;
+  }
+
+  setState(() => isLoading = true);
+
+  final token = await StorageService.getToken();
+
+  if (token == null) {
+    showMsg("Token tidak ditemukan, login ulang");
+    setState(() => isLoading = false);
+    return;
+  }
+
+  final success = await api.submitTugas(
+    token,
+    name.text.trim(),
+    parsedPrice,
+    desc.text.trim(),
+    github.text.trim(),
+  );
+
+  if (!mounted) return;
+
+  showMsg(success ? "Tugas berhasil dikirim!" : "Gagal submit tugas");
+
+  if (success) Navigator.pop(context);
+
+  setState(() => isLoading = false);
+}
 
   void showMsg(String msg) {
     ScaffoldMessenger.of(context)

@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/product_model.dart';
@@ -35,6 +34,8 @@ class ApiService {
 
       String token =
           data['data']['token'];
+
+      print("Login berhasil, token: $token");
 
       return token;
     } else {
@@ -152,41 +153,36 @@ class ApiService {
   }
 
   Future<bool> submitTugas(
-    String token,
-    String name,
-    int price,
-    String description,
-    String githubUrl,
-  ) async {
-    final url = Uri.parse(
-      '$baseUrl/api/products/submit',
-    );
+  String token,
+  String name,
+  int price,
+  String description,
+  String github_url,
+) async {
+  final url = Uri.parse('$baseUrl/api/products/submit');
 
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type':
-            'application/json',
-        'Accept':
-            'application/json',
-        'Authorization':
-            'Bearer $token',
-      },
-      body: jsonEncode({
-        'name': name,
-        'price': price,
-        'description':
-            description,
-        'github_url':
-            githubUrl,
-      }),
-    );
+  final response = await http.post(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    },
+    body: jsonEncode({
+      'name': name,
+      'price': price,
+      'description': description,
+      'github_url': github_url,
+    }),
+  );
 
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      print(response.body);
-      return false;
-    }
+  print("status: ${response.statusCode}");
+  print("body: ${response.body}");
+
+  if (response.statusCode == 200 || response.statusCode == 201) {
+    return true;
   }
+
+  return false;
+}
 }
