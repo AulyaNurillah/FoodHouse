@@ -261,19 +261,18 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
 
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: const Color(0xFF0B1F3A),
-        foregroundColor: Colors.white,
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const AddProductPage()),
-          );
-          getProducts();
-        },
-        icon: const Icon(Icons.add),
-        label: const Text("Add"),
-      ),
+      floatingActionButton: FloatingActionButton(
+      backgroundColor: const Color(0xFF0B1F3A),
+      foregroundColor: Colors.white,
+      onPressed: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const AddProductPage()),
+        );
+        getProducts();
+      },
+      child: const Icon(Icons.add),
+    ),
     );
   }
 }

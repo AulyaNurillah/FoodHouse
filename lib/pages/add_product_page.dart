@@ -126,7 +126,7 @@ class _AddProductPageState extends State<AddProductPage> {
           child: isLoading
               ? const CircularProgressIndicator(color: Colors.white)
               : const Text(
-                  "SAVE PRODUCT",
+                  "SIMPAN",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -145,7 +145,7 @@ class _AddProductPageState extends State<AddProductPage> {
         foregroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
-          "Add Product",
+          "Tambah Produk",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
